@@ -20,9 +20,7 @@ router.get("/scrape", function(req, res, next) {
                     title: title,
                     link: link
                 };
-                // create new article
                 let entry = new Article(single);
-                // save to database
                 entry.save(function(err, doc) {
                     if (err) {
                         if (!err.errors.link) {
@@ -30,6 +28,7 @@ router.get("/scrape", function(req, res, next) {
                         }
                     } else {
                         console.log("new article added");
+                        
                     }
                 });
             }
@@ -85,20 +84,39 @@ router.post("/save/:id", function(req, res) {
 });
 
 
-router.get("/deleted", function(req, res) {
+router.delete("/delete/:id", function(req, res) {
+    console.log("Hello")
     Article
-        .find({})
-        .where("deleted").equals(true)
+        .findByIdAndDelete(req.params.id, {
+            $set: { deleted: true}
+        })
+        .where("deleted").equals(false)
         .exec(function(error, docs) {
             if (error) {
                 console.log(error);
                 res.status(500);
             } else {
-                res.status(200).json(docs);
+                res.redirect("/saved");
             }
         });
 });
 
+router.delete("/dismiss/:id", function(req, res) {
+    console.log("Hello")
+    Article
+        .findByIdAndDelete(req.params.id, {
+            $set: { deleted: true}
+        })
+        .where("deleted").equals(false)
+        .exec(function(error, docs) {
+            if (error) {
+                console.log(error);
+                res.status(500);
+            } else {
+                res.redirect("/");
+            }
+        });
+});
 
 
 module.exports = router;

@@ -5,3 +5,10 @@ nav{
 .well{
     margin: 1rem
 }
+.show{
+    opacity: 50;
+}
+
+.modal-footer{
+    display: inline;
+}

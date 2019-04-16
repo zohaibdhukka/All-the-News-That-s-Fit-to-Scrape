@@ -1,7 +1,7 @@
 // ------------------------------------------------------------------------- setup/vars
-'use strict';
-const mongoose = require('mongoose'),
-      uniqueValidator = require('mongoose-unique-validator');
+"use strict";
+const mongoose = require("mongoose"),
+      uniqueValidator = require("mongoose-unique-validator");
 
 const Schema = mongoose.Schema;
 

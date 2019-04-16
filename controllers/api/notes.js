@@ -1,12 +1,12 @@
-'use strict';
-const express = require('express'),
+"use strict";
+const express = require("express"),
       router = express.Router(),
-      request = require('request'),
-      cheerio = require('cheerio'),
-      Article = require('../../models/article'),
-      Note = require('../../models/note');
+      request = require("request"),
+      cheerio = require("cheerio"),
+      Article = require("../../models/article"),
+      Note = require("../../models/note");
 
-router.get('/', function(req, res) {
+router.get("/", function(req, res) {
     Note
         .find({})
         .exec(function(err, notes) {
@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
         });
 });
 
-router.post('/:id', function(req, res) {
+router.post("/:id", function(req, res) {
     let newNote = new Note(req.body);
     newNote.save(function(err, doc) {
         if (err) {
@@ -28,13 +28,13 @@ router.post('/:id', function(req, res) {
         } else {
             Article.findOneAndUpdate(
                 { _id: req.params.id },
-                { $push: { 'notes': doc.id } },
+                { $push: { "notes": doc.id } },
                 function(error, newDoc) {
                     if (error) {
                         console.log(error);
                         res.status(500);
                     } else {
-                        res.redirect('/saved');
+                        res.redirect("/saved");
                     }
                 }
             );
@@ -42,13 +42,13 @@ router.post('/:id', function(req, res) {
     });
 });
 
-router.delete('/:id', function(req, res) {
+router.delete("/:id", function(req, res) {
     Note.findByIdAndRemove(req.params.id, function(err, note) {
         if (err) {
             console.log(err);
             res.status(500);
         } else {
-            res.redirect('/saved');
+            res.redirect("/saved");
         }
     });
 });
